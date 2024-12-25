@@ -59,3 +59,10 @@ input {
     padding: 10px 20px;
     cursor: pointer;
 }
+
+/* anchor tag */
+
+a {
+    text-decoration: none !important;
+    color: var(--primary) !important;
+}

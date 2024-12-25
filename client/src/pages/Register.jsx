@@ -1,29 +1,33 @@
-import React from 'react'
-import {Form} from 'antd'
+import React from "react";
+import { Form } from "antd";
+import { Link } from "react-router-dom";
 function Register() {
+  const onFinish=(values)=>{
+      console.log(values);
+  }
   return (
-    <div className='h-screen d-flex justify-content-center align-items-center'>
-      <div className='w-400 card p-3'>  
-        <h1 className='text-lg'>SV Bus - Register</h1>
+    <div className="h-screen d-flex justify-content-center align-items-center">
+      <div className="w-400 card p-3">
+        <h1 className="text-lg">SV Bus - Register</h1>
         <hr />
-        <Form layout='vertical'>
-          <Form.Item label='Name'>
-            <input type='text' />
+        <Form layout="vertical" onFinish={onFinish}>
+          <Form.Item label="Name" name='Name'>
+            <input type="text" />
           </Form.Item>
-          <Form.Item label='Email'>
-            <input type='text' />
+          <Form.Item label="Email" name='Email'>
+            <input type="text" />
           </Form.Item>
-          <Form.Item label='Password'>
-            <input type='text' />
+          <Form.Item label="Password" name='Password'>
+            <input type="password" />
           </Form.Item>
+          <div className="d-flex justify-content-between align-items-center">
+            <Link to="/login">Click Here to Login</Link>
+            <button className="secondary-btn" type="submit">Register</button>
+          </div>
         </Form>
-
-        <div className="d-flex justify-content-between">
-          <button className="secondary-btn">Register</button>
-        </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default Register
+export default Register;
