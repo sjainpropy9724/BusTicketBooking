@@ -1,11 +1,12 @@
 import React from 'react';
 import { Button } from 'antd';
+import './resources/global.css';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import Home from "./pages/Home";
 import Login from './pages/Login';
 import Register from "./pages/Register";
 const App = () => (
-  <div className="App m-5">
+  <div className="App">
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Home/>} />
