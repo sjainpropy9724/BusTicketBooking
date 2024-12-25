@@ -15,7 +15,7 @@ function Register() {
       } catch (error) {
           message.error(error.message);
       }
-  }
+  };
   return (
     <div className="h-screen d-flex justify-content-center align-items-center">
       <div className="w-400 card p-3">
