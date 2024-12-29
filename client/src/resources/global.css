@@ -87,3 +87,14 @@ a {
     height: 80px !important;
     width: 80px !important;
 }
+
+i {
+    cursor: pointer;
+    font-size: 30px;
+}
+
+h1 {
+    margin-top: 10px;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}

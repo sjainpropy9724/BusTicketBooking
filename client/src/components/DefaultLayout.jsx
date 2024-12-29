@@ -1,10 +1,34 @@
 import React from "react";
 import "../resources/layout.css";
 import {useNavigate} from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 function DefaultLayout({ children }) {
   const navigate = useNavigate();
-  const userMenu = [];
+  const [collapsed, setCollapsed] = React.useState(false);
+  const {user} = useSelector(state => state.users);
+  const userMenu = [
+    {
+        name: "Home",
+        icon: "ri-home-line",
+        path: '/'
+    },
+    {
+        name: 'Profile',
+        icon: 'ri-user-line',
+        path: '/profile'
+    },
+    {
+        name: 'Bookings',
+        icon: "ri-file-list-line",
+        path: '/bookings'
+    },
+    {
+        name: 'Logout',
+        icon: "ri-logout-box-line",
+        path: '/logout'
+    }
+  ];
   const adminMenu = [
     {
       name: "Home",
@@ -32,26 +56,42 @@ function DefaultLayout({ children }) {
       icon: "ri-logout-box-line",
     },
   ];
-  const menuToBeRendered = adminMenu;
+  const menuToBeRendered = user?.isAdmin ? adminMenu : userMenu;
   const activeRoute = window.location.pathname;
   return (
     <div className="layout-parent">
       <div className="sidebar">
-        <div className="d-flex flex-column gap-3 justify-content-start">
+        <div className="sidebar-header">
+            <h1 className="logo">SV</h1>
+            <h1 className="role">{user?.name}</h1>
+        </div>
+        <div className="d-flex flex-column gap-3 justify-content-start menu">
           {menuToBeRendered.map((item, index) => {
             return (
               <div className={`${activeRoute === item.path && 'active-menu-item'} menu-item`}>
                 <i className={item.icon}></i>
-                <span onClick={() => {
-                    navigate(item.path); 
-                }}>{item.name}</span>
+                {!collapsed && <span onClick={() => {
+                    if(item.path === '/logout') {
+                        localStorage.removeItem("token");
+                        navigate("/login");
+                    } else {
+                        navigate(item.path);
+                    }
+                }}>{item.name}</span>}
               </div>
             );
           })}
         </div>
       </div>
       <div className="body">
-        <div className="header">header</div>
+        <div className="header">
+            {collapsed ? 
+                (<i class="ri-menu-fill"
+                    onClick={() => setCollapsed(!collapsed)}></i>) 
+                : 
+                (<i class="ri-close-line"
+                    onClick={() => setCollapsed(!collapsed)}></i>)}
+        </div>
         <div className="content">{children}</div>
       </div>
     </div>
