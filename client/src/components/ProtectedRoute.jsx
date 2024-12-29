@@ -5,6 +5,7 @@ import { message } from "antd";
 import { SetUser } from "../redux/usersSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { ShowLoading, HideLoading } from "../redux/alertsSlice";
+import DefaultLayout from "./DefaultLayout";
 
 function ProtectedRoute({ children }) {
   const dispatch = useDispatch();
@@ -45,7 +46,7 @@ function ProtectedRoute({ children }) {
     }
   }, []);
 
-  return <div>{loading ? <div>Loading... </div> : <div>{children}</div>}</div>;
+  return <div>{!loading && <DefaultLayout>{children}</DefaultLayout>}</div>;
 }
 
 export default ProtectedRoute;
