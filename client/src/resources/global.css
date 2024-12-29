@@ -66,3 +66,24 @@ a {
     text-decoration: none !important;
     color: var(--primary) !important;
 }
+
+/*spinner*/
+
+.spinner-parent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.50);
+    z-index: 10000;
+}
+
+.spinner-border {
+    color: white !important;
+    height: 80px !important;
+    width: 80px !important;
+}
