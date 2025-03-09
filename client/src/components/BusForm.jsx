@@ -1,19 +1,31 @@
 import React from "react";
-import { Col, Form, Modal, Row } from "antd";
+import { Col, Form, message, Modal, Row } from "antd";
+import { axiosInstance } from "../helpers/axiosInstance";
 import { useDispatch } from "react-redux";
-function BusForm({ showBusForm, setShowBusForm, type='add' }) {
-    const dispatch = useDispatch();
-    const onFinish = async(values) => {
-        try {
-            let response = null;
-                if(type === 'add') {
-                    response = await axios.post
-                }
-        } catch (error) {
+import { HideLoading, ShowLoading } from "../redux/alertsSlice";
 
-        }
+function BusForm({ showBusForm, setShowBusForm, type = "add" }) {
+  const dispatch = useDispatch();
+  const onFinish = async (values) => {
+    try {
+      dispatch(ShowLoading());
+      let response = null;
+      if (type === "add") {
+        response = await axiosInstance.post('/api/buses/add-bus', values);
+      } else {
+      }
+      if (response.data.success) { 
+        message.success(response.data.message);
+      } else {
+        message.error(response.data.message);
+      }
+      dispatch(HideLoading());
+    } catch (error) {
+      message.error(error.message);
+      dispatch(HideLoading());
     }
-    return (
+  };
+  return (
     <Modal
       width={800}
       title="Add Bus"
@@ -55,7 +67,7 @@ function BusForm({ showBusForm, setShowBusForm, type='add' }) {
         </Row>
         <Row gutter={[10, 10]}>
           <Col lg={8} xs={8}>
-            <Form.Item label="Journey Date" name="jounreyDate">
+            <Form.Item label="Journey Date" name="journeyDate">
               <input type="date" />
             </Form.Item>
           </Col>
@@ -83,7 +95,9 @@ function BusForm({ showBusForm, setShowBusForm, type='add' }) {
           </Col>
         </Row>
         <div className="d-dlex justify-content-end">
-            <button className="secondary-btn" type="submit">Submit</button>
+          <button className="secondary-btn" type="submit">
+            Submit
+          </button>
         </div>
       </Form>
     </Modal>

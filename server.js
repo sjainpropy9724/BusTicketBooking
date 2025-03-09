@@ -11,7 +11,10 @@ const dbConfig = require(path.join(__dirname, './config/dbConfig'));
 const port = process.env.PORT || 5000;
 app.use(express.json());
 
-const usersRoute = require("./routes/usersRoute");
+const usersRoute = require('./routes/usersRoute');
+const busesRoute = require('./routes/busesRoute');
 
 app.use('/api/users', usersRoute);
+app.use('/api/buses', busesRoute);
+
 app.listen(port, () => console.log(`Node server Listening on port ${port}`));

@@ -7,6 +7,7 @@ const db = mongoose.connection;
 
 db.on('connected', () => {
     console.log('MongoDB Connection Successful');
+    console.log('Server is running...');
 })
 
 db.on('error', () => {

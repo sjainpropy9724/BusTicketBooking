@@ -11,7 +11,7 @@ function AdminBuses() {
           onClick={() => setShowBusForm(true)}>Add Bus</button>
       </div>
       
-      {showBusForm && <BusForm showBusForm={showBusForm} setShowBusForm={setShowBusForm} />}
+      {showBusForm && <BusForm showBusForm={showBusForm} setShowBusForm={setShowBusForm} type='add'/>}
     </div>
   )
 }
