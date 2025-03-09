@@ -59,7 +59,7 @@ input {
 /* buttons */
 
 .primary-btn {
-    background-color: var(--primary);
+    background-color: var(--primary) !important;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -67,11 +67,24 @@ input {
 }
 
 .secondary-btn {
-    background-color: var(--secondary);
+    background-color: var(--secondary) !important;
     color: white;
     border: none;
     padding: 10px 20px;
     cursor: pointer;
+}
+
+.disabled-btn {
+    background-color: gray !important;
+    color: white;
+    border: none !important;
+    padding: 10px 20px;
+    border-radius: 0 !important;
+    cursor: not-allowed;
+}
+
+button {
+    border-radius: 0 !important;
 }
 
 /* anchor tag */

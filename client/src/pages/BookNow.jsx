@@ -28,6 +28,26 @@ function BookNow() {
       message.error(error.message);
     }
   };
+  const bookNow = async () => {
+    try {
+      dispatch(ShowLoading());
+      const response = await axiosInstance.post("/api/bookings/book-seat", {
+        bus: bus._id,
+        seats: selectedSeats,
+      });
+      dispatch(HideLoading());
+      if (response.data.success) {
+        message.success(response.data.message);
+        getBus(); // Refresh data after booking
+        setSelectedSeats([]); // clear selection after booking
+      } else {
+        message.error(response.data.message);
+      }
+    } catch (error) {
+      dispatch(HideLoading());
+      message.error(error.message);
+    }
+  };
   useEffect(() => {
     getBus();
   }, []);
@@ -46,13 +66,19 @@ function BookNow() {
                 <b>Journey Date</b> : {bus.journeyDate}
               </h1>
               <h1 className="text-lg">
+                <b>Fare</b> : $ {bus.fare} /-
+              </h1>
+              <h1 className="text-lg">
                 <b>Departure Time</b> : {bus.departure}
               </h1>
               <h1 className="text-lg">
                 <b>Arrival Time</b> : {bus.arrival}
               </h1>
               <h1 className="text-lg">
-                <b>Fare</b> : $ {bus.fare} /-
+                <b>Bus Capacity</b> : {bus.capacity}
+              </h1>
+              <h1 className="text-lg">
+                <b>Seats Left</b> : {bus.capacity - bus.seatsBooked.length}
               </h1>
             </div>
             <hr />
@@ -63,7 +89,17 @@ function BookNow() {
               <h1 className="text-2xl mt-2">
                 Total Fare: <b>$ {bus.fare * selectedSeats.length}</b>
               </h1>
-              <button className="secondary-btn mt-3">Book Now</button>
+              <hr />
+
+              <button
+                className={`btn btn-primary ${
+                  selectedSeats.length === 0 && "disabled-btn"
+                }`}
+                onClick={bookNow}
+                disabled={selectedSeats.length === 0}
+              >
+                Book Now
+              </button>
             </div>
           </Col>
           <Col lg={12} xs={24} sm={24}>
