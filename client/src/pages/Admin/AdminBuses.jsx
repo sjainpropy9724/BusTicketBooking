@@ -11,7 +11,7 @@ function AdminBuses() {
   const dispatch = useDispatch();
   const [showBusForm, setShowBusForm] = React.useState(false);
   const [buses, setBuses] = useState([]);
-
+  const [selectedBus, setSelectedBus] = useState(null);
   const getBuses = async () => {
     try {
       dispatch(ShowLoading());
@@ -19,6 +19,25 @@ function AdminBuses() {
       dispatch(HideLoading());
       if (response.data.success) {
         setBuses(response.data.data);
+      } else {
+        message.error(response.data.message);
+      }
+    } catch (error) {
+      dispatch(HideLoading());
+      message.error(error.message);
+    }
+  };
+
+  const deleteBus = async (id) => {
+    try {
+      dispatch(ShowLoading());
+      const response = await axiosInstance.post("/api/buses/delete-bus", {
+        _id: id,
+      });
+      dispatch(HideLoading());
+      if (response.data.success) {
+        message.success(response.data.message);
+        getBuses();
       } else {
         message.error(response.data.message);
       }
@@ -48,7 +67,6 @@ function AdminBuses() {
     {
       title: "Journey Date",
       dataIndex: "journeyDate",
-      render: (journeyDate) => moment(journeyDate).format("DD-MM-YYYY"),
     },
     {
       title: "Status",
@@ -59,8 +77,13 @@ function AdminBuses() {
       dataIndex: "action",
       render: (action, record) => (
         <div className="d-flex gap-3">
-          <i class="ri-pencil-line"></i>
-          <i class="ri-delete-bin-line"></i>
+          <i class="ri-delete-bin-line" onClick={()=>{
+            deleteBus(record._id)
+          }}></i>
+          <i class="ri-pencil-line" onClick={()=>{
+            setSelectedBus(record);
+            setShowBusForm(true);
+          }}></i>
         </div>
       )
     },
@@ -87,7 +110,10 @@ function AdminBuses() {
         <BusForm
           showBusForm={showBusForm}
           setShowBusForm={setShowBusForm}
-          type="add"
+          type={selectedBus ? "edit" : "add"}
+          selectedBus={selectedBus}
+          setSelectedBus = {setSelectedBus}
+          getData = {getBuses}
         />
       )}
     </div>
