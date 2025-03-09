@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif !important;
+}
+
 /* heights and widths */
 
 .h-screen {
@@ -22,6 +28,9 @@ input {
 .card {
     border: 2px solid grey;
     box-shadow: 0 0 2px grey;
+    border-radius: 0 !important;
+    font-family: 'Poppins', sans-serif !important;
+    font-size: 15px;
 }
 
 /* text-sizes */
@@ -40,6 +49,11 @@ input {
 
 .text-md {
     font-size: 18px;
+}
+
+.underline {
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 /* buttons */
@@ -93,7 +107,7 @@ i {
     font-size: 30px;
 }
 
-h1 {
+h1, p {
     margin-top: 10px;
     margin-bottom: 0 !important;
     padding-bottom: 0 !important;
