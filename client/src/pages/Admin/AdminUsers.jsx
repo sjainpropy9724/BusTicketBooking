@@ -39,12 +39,12 @@ function AdminUsers() {
           ...user,
           isAdmin: false,
         };
-      } else if (action === "block-user") {
+      } else if (action === "block") {
         payload = {
           ...user,
           isBlocked: true,
         };
-      } else if (action === "unblock-user") {
+      } else if (action === "unblock") {
         payload = {
           ...user,
           isBlocked: false,
@@ -58,6 +58,7 @@ function AdminUsers() {
       dispatch(HideLoading());
       if (response.data.success) {
         getUsers();
+        message.success(response.data.message);
       } else {
         message.error(response.data.message);
       }
@@ -75,6 +76,13 @@ function AdminUsers() {
     {
       title: "Email",
       dataIndex: "email",
+    },
+    {
+      title: "Status",
+      dataIndex: "",
+      render: (data) => {
+        return data.isBlocked ? "Blocked" : "Active";
+      }
     },
     {
       title: "Role",

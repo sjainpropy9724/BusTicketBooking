@@ -6,7 +6,7 @@ function Bus({ bus }) {
   const navigate = useNavigate();
   return (
     <div className="card p-3">
-      <h1 className="text-lg">{bus.name}</h1>
+      <h1 className="text-lg primary-text">{bus.name}</h1>
       <hr />
       <div className="d-flex justify-content-between">
         <div>
@@ -27,7 +27,7 @@ function Bus({ bus }) {
           <p className="text-sm"><b>Journey Date</b></p>
           <p className="text-sm">{bus.journeyDate}</p>
         </div>
-        <h1 className="text-lg underline" onClick={()=>{
+        <h1 className="text-lg underline secondary-text" onClick={()=>{
             navigate(`/book-now/${bus._id}`)
         }}>Book Now</h1>
       </div>

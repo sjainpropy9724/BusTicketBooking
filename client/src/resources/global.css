@@ -90,6 +90,14 @@ input, select{
   cursor: pointer;
 }
 
+.primary-text {
+  color: var(--primary) !important;
+}
+
+.secondary-text {
+  color: var(--secondary) !important;
+}
+
 /* buttons */
 
 .primary-btn {
@@ -106,6 +114,12 @@ input, select{
   border: none;
   padding: 10px 20px;
   cursor: pointer;
+}
+
+.outlined {
+  border: 2px solid var(--primary) !important;
+  color: var(--primary) !important;
+  background-color: white !important;
 }
 
 .disabled-btn {

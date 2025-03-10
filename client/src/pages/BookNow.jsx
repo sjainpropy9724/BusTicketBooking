@@ -82,12 +82,12 @@ function BookNow() {
       {bus && (
         <Row className="mt-3 gutter={30, 30}">
           <Col lg={12} xs={24} sm={24}>
-            <h1 className="text-xl text-secondary">{bus.name}</h1>
+            <h1 className="text-xl primary-text">{bus.name}</h1>
             <h1 className="text-md">
               {bus.from} - {bus.to}
             </h1>
             <hr />
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-2">
               <h1 className="text-lg">
                 <b>Journey Date</b> : {bus.journeyDate}
               </h1>
@@ -124,7 +124,7 @@ function BookNow() {
                 stripeKey="pk_test_51R0xOUBGiK4CzIRM3DTDQDzEkZ0ihdmkDnv7CXgMNj8Dq9HaOeZ1LjjHouOaJTVoK43uErZZoTtZLCTr8RKKMDHL00qeiVLT2g"
               >
                 <button
-                  className={`btn btn-primary ${
+                  className={`primary-btn ${
                     selectedSeats.length === 0 && "disabled-btn"
                   }`}
                   disabled={selectedSeats.length === 0}
