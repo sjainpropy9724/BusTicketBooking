@@ -1,3 +1,4 @@
+import { IndianRupee } from "lucide-react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -18,7 +19,7 @@ function Bus({ bus }) {
         </div>
         <div>
           <p className="text-sm"><b>Fare</b></p>
-          <p className="text-sm">${bus.fare} /-</p>
+          <p className="text-sm"><IndianRupee />{bus.fare} /-</p>
         </div>
       </div>
       <div className="d-flex justify-content-between align-items-end">

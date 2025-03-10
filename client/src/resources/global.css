@@ -1,127 +1,152 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
 
 body {
-    font-family: 'Poppins', sans-serif !important;
+  font-family: "Poppins", sans-serif !important;
 }
 
 /* heights and widths */
 
 .h-screen {
-    height: 100vh;
+  height: 100vh;
 }
 
 .w-400 {
-    width: 400px;
+  width: 400px;
 }
 
 /* inputs */
 
 input {
-    height: 40px;
-    border: 2px solid grey;
-    width: 100%;
-    padding-left: 20px;
+  height: 40px;
+  border: 2px solid grey;
+  width: 100%;
+  padding-left: 20px;
 }
 
 /* card */
 
 .card {
-    border: 2px solid grey;
-    box-shadow: 0 0 2px grey;
-    border-radius: 0 !important;
-    font-family: 'Poppins', sans-serif !important;
-    font-size: 15px;
+  border: 2px solid grey;
+  box-shadow: 0 0 2px grey;
+  border-radius: 0 !important;
+  font-family: "Poppins", sans-serif !important;
+  font-size: 15px;
+}
+
+.bus-card {
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #eaeaea;
+  transition: all 0.3s ease;
+  background-color: #fff;
+  height: 100%;
+}
+
+.bus-card:hover {
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
 }
 
 /* text-sizes */
 
 .text-2xl {
-    font-size: 30px;
+  font-size: 30px;
+  font-family: "Poppins", sans-serif !important;
 }
 
 .text-xl {
-    font-size: 25px;
+  font-size: 25px;
+  font-family: "Poppins", sans-serif !important;
 }
 
 .text-lg {
-    font-size: 20px;
+  font-size: 20px;
+  font-family: "Poppins", sans-serif !important;
 }
 
 .text-md {
-    font-size: 18px;
+  font-size: 18px;
+  font-family: "Poppins", sans-serif !important;
+}
+
+.text-sm {
+  font-size: 15px;
+  font-family: "Poppins", sans-serif !important;
 }
 
 .underline {
-    text-decoration: underline;
-    cursor: pointer;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 /* buttons */
 
 .primary-btn {
-    background-color: var(--primary) !important;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer; 
+  background-color: var(--primary) !important;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
 }
 
 .secondary-btn {
-    background-color: var(--secondary) !important;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
+  background-color: var(--secondary) !important;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
 }
 
 .disabled-btn {
-    background-color: gray !important;
-    color: white;
-    border: none !important;
-    padding: 10px 20px;
-    border-radius: 0 !important;
-    cursor: not-allowed;
+  background-color: gray !important;
+  color: white;
+  border: none !important;
+  padding: 10px 20px;
+  border-radius: 0 !important;
+  cursor: not-allowed;
 }
 
 button {
-    border-radius: 0 !important;
+  border-radius: 0 !important;
 }
 
 /* anchor tag */
 
 a {
-    text-decoration: none !important;
-    color: var(--primary) !important;
+  text-decoration: none !important;
+  color: var(--primary) !important;
 }
 
 /*spinner*/
 
 .spinner-parent {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(0, 0, 0, 0.50);
-    z-index: 10000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 10000;
 }
 
 .spinner-border {
-    color: white !important;
-    height: 80px !important;
-    width: 80px !important;
+  color: white !important;
+  height: 80px !important;
+  width: 80px !important;
 }
 
 i {
-    cursor: pointer;
-    font-size: 30px;
+  cursor: pointer;
+  font-size: 30px;
 }
 
-h1, p {
-    margin-top: 10px;
-    margin-bottom: 0 !important;
-    padding-bottom: 0 !important;
+h1,
+p {
+  margin-top: 10px;
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
 }
