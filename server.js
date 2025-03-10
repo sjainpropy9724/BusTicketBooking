@@ -19,11 +19,7 @@ app.use("/api/users", usersRoute);
 app.use("/api/buses", busesRoute);
 app.use("/api/bookings", bookingsRoute);
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client/build/index.html"));
-  });
-}
+// ❌ Removed static file serving (frontend is on Vercel)
 
-app.listen(port, () => console.log(`Node server Listening on port ${port}`));
+// Start server
+app.listen(port, () => console.log(`Node server listening on port ${port}`));
