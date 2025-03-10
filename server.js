@@ -18,7 +18,6 @@ const bookingsRoute = require("./routes/bookingsRoute");
 app.use("/api/users", usersRoute);
 app.use("/api/buses", busesRoute);
 app.use("/api/bookings", bookingsRoute);
-const path = require("path");
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
