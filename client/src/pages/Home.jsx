@@ -20,8 +20,9 @@ function Home() {
     });
     try {
       dispatch(ShowLoading());
+      const API_BASE_URL = "https://busticketbooking-93vx.onrender.com";
       const response = await axios.post(
-        "http://localhost:5000/api/buses/get-all-buses",
+        `${API_BASE_URL}/api/buses/get-all-buses`,
         Object.keys(tempFilters).length ? tempFilters : {},
         {
           headers: {

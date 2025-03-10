@@ -12,8 +12,9 @@ function Register() {
   const onFinish = async (values) => {
     try {
       dispatch(ShowLoading());
+      const API_BASE_URL = "https://busticketbooking-93vx.onrender.com";
       const response = await axios.post(
-        "http://localhost:5000/api/users/register",
+        `${API_BASE_URL}/api/users/register`,
         values
       );
       dispatch(HideLoading());

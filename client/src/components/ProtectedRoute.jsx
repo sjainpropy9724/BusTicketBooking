@@ -15,8 +15,9 @@ function ProtectedRoute({ children }) {
   const validateToken = async () => {
     try {
       dispatch(ShowLoading());
+      const API_BASE_URL = "https://busticketbooking-93vx.onrender.com";
       const response = await axios.post(
-        "http://localhost:5000/api/users/get-user-by-id",
+        `${API_BASE_URL}/api/users/get-user-by-id`,
         {},
         {
           headers: {
