@@ -37,7 +37,7 @@ input, select{
 
 .card {
   border: 2px solid grey;
-  box-shadow: 0 0 2px grey;
+  box-shadow: 0 0 1px rgb(189,189,189);
   border-radius: 0 !important;
   font-family: "Poppins", sans-serif !important;
   font-size: 15px;

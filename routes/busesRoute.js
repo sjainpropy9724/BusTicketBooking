@@ -54,7 +54,18 @@ router.post("/delete-bus", authMiddleware, async (req, res) => {
 
 router.post("/get-all-buses", authMiddleware, async (req, res) => {
   try {
-    const buses = await Bus.find();
+    let query = {};
+    if (req.body.from) {
+      query.from = { $regex: new RegExp(req.body.from, "i") }; // Case-insensitive
+    }
+    if (req.body.to) {
+      query.to = { $regex: new RegExp(req.body.to, "i") };
+    }
+    if (req.body.journeyDate) {
+      query.journeyDate = req.body.journeyDate;
+    }
+
+    const buses = await Bus.find(query);
     return res.status(200).send({
       success: true,
       message: "Buses fetched successfully",

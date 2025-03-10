@@ -78,25 +78,57 @@ router.post("/login", async (req, res) => {
 });
 
 // get user by id
-router.post("/get-user-by-id", authMiddleware, async (req, res)=> {
+router.post("/get-user-by-id", authMiddleware, async (req, res) => {
   try {
-  const user = await User.findById(req.body.userId);
-  res.send( {
-  message: "User fetched successfully",
-  success: true,
-  data: user,
-  });
-}
-catch (error){
-  res.send({
-
-  message: error.message,
-  success: false,
-  data: null,
-  });
-}
+    const user = await User.findById(req.body.userId);
+    res.send({
+      message: "User fetched successfully",
+      success: true,
+      data: user,
+    });
+  } catch (error) {
+    res.send({
+      message: error.message,
+      success: false,
+      data: null,
+    });
+  }
 });
 
+//get-all-users
+router.post("/get-all-users", authMiddleware, async (req, res) => {
+  try {
+    const users = await User.find({});
+    res.send({
+      message: "Users fetched successfully",
+      success: true,
+      data: users,
+    });
+  } catch (error) {
+    res.send({
+      message: error.message,
+      success: false,
+      data: null,
+    });
+  }
+});
+
+//update-user-permissions
+router.post("/update-user-permissions", authMiddleware, async (req, res) => {
+  try {
+    await User.findByIdAndUpdate(req.body._id, req.body);
+    res.send({
+      message: "User Permissions Updated Successfully",
+      success: true,
+      data: null,
+    });
+  } catch (error) {
+    res.send({
+      message: error.message,
+      success: false,
+      data: null,
+    });
+  }
+})
 
 module.exports = router;
-
