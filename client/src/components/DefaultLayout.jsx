@@ -14,11 +14,6 @@ function DefaultLayout({ children }) {
         path: '/'
     },
     {
-        name: 'Profile',
-        icon: 'ri-user-line',
-        path: '/profile'
-    },
-    {
         name: 'Bookings',
         icon: "ri-file-list-line",
         path: '/bookings'
