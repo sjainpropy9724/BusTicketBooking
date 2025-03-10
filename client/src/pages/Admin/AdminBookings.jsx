@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import PageTitle from "../components/PageTitle";
-import BusForm from "../components/BusForm";
+import PageTitle from "../../components/PageTitle";
+import BusForm from "../../components/BusForm";
 import { useDispatch } from "react-redux";
 import { HideLoading, ShowLoading } from "../redux/alertsSlice";
 import { message, Modal, Table } from "antd";
