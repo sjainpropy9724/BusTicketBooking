@@ -11,7 +11,7 @@ function BusForm({
   type = "add",
   getData,
   selectedBus,
-  setSelectedBus
+  setSelectedBus,
 }) {
   const dispatch = useDispatch();
   const onFinish = async (values) => {
@@ -47,15 +47,11 @@ function BusForm({
       open={showBusForm}
       onCancel={() => {
         setSelectedBus(null);
-        setShowBusForm(false)
+        setShowBusForm(false);
       }}
       footer={false}
     >
-      <Form
-        layout="vertical"
-        onFinish={onFinish}
-        initialValues={selectedBus}
-      >
+      <Form layout="vertical" onFinish={onFinish} initialValues={selectedBus}>
         <Row>
           <Col lg={12} xs={24}>
             <Form.Item label="Bus Name" name="name">
@@ -95,19 +91,22 @@ function BusForm({
           </Col>
           <Col lg={8} xs={8}>
             <Form.Item label="Departure" name="departure">
-              <input type="text" />
+              <input type="time" />
             </Form.Item>
           </Col>
           <Col lg={8} xs={8}>
             <Form.Item label="Arrival" name="arrival">
-              <input type="text" />
+              <input type="time" />
             </Form.Item>
           </Col>
         </Row>
         <Row gutter={[10, 10]}>
           <Col lg={12} xs={12}>
             <Form.Item label="Type" name="type">
-              <input type="text" />
+              <select name="" id="">
+                <option value="A/C">A/C</option>
+                <option value="Non-A/C">Non-A/C</option>
+              </select>
             </Form.Item>
           </Col>
           <Col lg={12} xs={12}>
@@ -115,10 +114,20 @@ function BusForm({
               <input type="text" />
             </Form.Item>
           </Col>
+          <Col lg={12} xs={24}>
+            <Form.Item label="Status" name="status">
+              <select name="" id="">
+                <option value="Yet to Start">Yet to Start</option>
+                <option value="Running">Running</option>
+                <option value="Completed">Completed</option>
+              </select>
+            </Form.Item>
+          </Col>
         </Row>
+        <br />
         <div className="d-dlex justify-content-end">
           <button className="secondary-btn" type="submit">
-            Submit
+            Save
           </button>
         </div>
       </Form>

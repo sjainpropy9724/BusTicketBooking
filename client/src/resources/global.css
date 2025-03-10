@@ -1,7 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
 
-body {
-  font-family: "Poppins", sans-serif !important;
+/* Override Ant Design default font */
+body, .ant-typography, .ant-btn, .ant-input, .ant-table, .ant-modal, .ant-menu {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+
+* {
+  font-family: 'Poppins', sans-serif !important;
 }
 
 /* heights and widths */
@@ -14,9 +20,13 @@ body {
   width: 400px;
 }
 
+.ant-form-item {
+  margin: 3px 0px !important;
+}
+
 /* inputs */
 
-input {
+input, select{
   height: 40px;
   border: 2px solid grey;
   width: 100%;

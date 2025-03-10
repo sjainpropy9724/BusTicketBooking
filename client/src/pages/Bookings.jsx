@@ -7,7 +7,7 @@ import { message, Modal, Table } from "antd";
 import { axiosInstance } from "../helpers/axiosInstance";
 import moment from "moment";
 import { IndianRupee } from "lucide-react";
-import { useReactToPrint } from 'react-to-print';
+import { useReactToPrint } from "react-to-print";
 
 function Bookings() {
   const [showPrintModal, setShowPrintModal] = useState(false);
@@ -62,6 +62,9 @@ function Bookings() {
     {
       title: "Seats",
       dataIndex: "seats",
+      render: (seats) => {
+        return seats.join(", ");
+      },
     },
     {
       title: "Action",
@@ -90,13 +93,15 @@ function Bookings() {
   const handlePrint = useReactToPrint({
     contentRef: componentRef,
     documentTitle: `My Ticket`,
-    onAfterPrint: () => console.log('Printing completed'),
+    onAfterPrint: () => console.log("Printing completed"),
   });
 
   return (
     <div>
       <PageTitle title="Bookings" />
-      <div className="mt-2"><Table dataSource={bookings} columns={columns} /></div>
+      <div className="mt-2">
+        <Table dataSource={bookings} columns={columns} />
+      </div>
       {showPrintModal && (
         <Modal
           title="Print Ticket"
@@ -110,34 +115,61 @@ function Bookings() {
         >
           <div className="d-flex flex-column p-5" ref={componentRef}>
             <p className="text-md">{selectedBooking.name}</p>
-            <p className="text-md text-secondary">{selectedBooking.from} - {selectedBooking.to}</p>
-            <hr />
-            <p>
-                <span className="text-md" style={{color: "#808080"}}>Journey Date:</span> {" "}
-                <span className="text-md">{moment(selectedBooking.journeyDate).format("DD-MM-YYYY")}</span> {" "}
-            </p>
-            <p>
-                <span className="text-md" style={{color: "#808080"}}>Journey Time:</span> {" "}
-                <span className="text-md">{selectedBooking.departure}</span>
+            <p className="text-md text-secondary">
+              {selectedBooking.from} - {selectedBooking.to}
             </p>
             <hr />
             <p>
-                <span className="text-lg" style={{color: "#808080"}}>Seat Numbers:</span> {" "} <br />
-                <span className="text-md">{selectedBooking.seats}</span>
+              <span className="text-md" style={{ color: "#808080" }}>
+                Journey Date:
+              </span>{" "}
+              <span className="text-md">
+                {moment(selectedBooking.journeyDate).format("DD-MM-YYYY")}
+              </span>{" "}
+            </p>
+            <p>
+              <span className="text-md" style={{ color: "#808080" }}>
+                Journey Time:
+              </span>{" "}
+              <span className="text-md">{selectedBooking.departure}</span>
             </p>
             <hr />
             <p>
-                <span className="text-md" style={{color: "#808080"}}>Total Amount:</span>{" "} <br />
-                <span className="text-md"><IndianRupee />{selectedBooking.fare * selectedBooking.seats.length} /-</span>
+              <span className="text-lg" style={{ color: "#808080" }}>
+                Seat Numbers:
+              </span>{" "}
+              <br />
+              <span className="text-md">{selectedBooking.seats}</span>
             </p>
             <hr />
             <p>
-                <span className="text-sm" style={{color: "#808080"}}>Booking Created on: </span> {" "} <br />
-                <span className="text-sm">{moment(selectedBooking.createdAt).format("DD-MM-YYYY HH:mm:ss")}</span>
+              <span className="text-md" style={{ color: "#808080" }}>
+                Total Amount:
+              </span>{" "}
+              <br />
+              <span className="text-md">
+                <IndianRupee />
+                {selectedBooking.fare * selectedBooking.seats.length} /-
+              </span>
+            </p>
+            <hr />
+            <p>
+              <span className="text-sm" style={{ color: "#808080" }}>
+                Booking Created on:{" "}
+              </span>{" "}
+              <br />
+              <span className="text-sm">
+                {moment(selectedBooking.createdAt).format(
+                  "DD-MM-YYYY HH:mm:ss"
+                )}
+              </span>
             </p>
             <p>
-                <span className="text-sm" style={{color: "#808080"}}>Transaction ID:</span> {" "} <br />
-                <span className="text-sm">{selectedBooking.transactionId}</span>
+              <span className="text-sm" style={{ color: "#808080" }}>
+                Transaction ID:
+              </span>{" "}
+              <br />
+              <span className="text-sm">{selectedBooking.transactionId}</span>
             </p>
           </div>
         </Modal>
