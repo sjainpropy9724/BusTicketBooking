@@ -73,7 +73,7 @@ function AdminBookings() {
       render: (text, record) => {
         const journeyDate = moment(record.journeyDate);
         const daysDifference = journeyDate.diff(moment(), "days");
-        const isCancellable = daysDifference >= 4;
+        const isCancellable = daysDifference >= 3;
 
         return (
           <div className="flex gap-4">
