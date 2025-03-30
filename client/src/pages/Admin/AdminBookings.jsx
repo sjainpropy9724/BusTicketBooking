@@ -72,7 +72,6 @@ function AdminBookings() {
       dataIndex: "action",
       render: (text, record) => {
         const journeyDate = moment(record.journeyDate);
-        // const bookingDate = moment(record.createdAt);
         const daysDifference = journeyDate.diff(moment(), "days");
         const isCancellable = daysDifference >= 4;
 
@@ -90,8 +89,8 @@ function AdminBookings() {
             <p
               className={`text-md underline ${
                 isCancellable
-                  ? "cursor-pointer text-red-600"
-                  : "cursor-default text-gray-400 no-underline"
+                  ? "cursor-pointer"
+                  : "cursor-not-allowed"
               }`}
               onClick={() => {
                 if (isCancellable) {
