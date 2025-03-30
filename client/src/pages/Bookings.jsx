@@ -238,4 +238,4 @@ function Bookings() {
   );
 }
 
-export default AdminBookings;
+export default Bookings;
