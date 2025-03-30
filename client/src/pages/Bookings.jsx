@@ -71,19 +71,40 @@ function Bookings() {
     {
       title: "Action",
       dataIndex: "action",
-      render: (text, record) => (
-        <div>
-          <p
-            className="text-md underline"
-            onClick={() => {
-              setSelectedBooking(record);
-              setShowPrintModal(true);
-            }}
-          >
-            Print Ticket
-          </p>
-        </div>
-      ),
+      render: (text, record) => {
+        const journeyDate = moment(record.journeyDate);
+        const daysDifference = journeyDate.diff(moment(), "days");
+        const isCancellable = daysDifference >= 3;
+
+        return (
+          <div className="flex gap-4">
+            <p
+              className="text-md underline cursor-pointer"
+              onClick={() => {
+                setSelectedBooking(record);
+                setShowPrintModal(true);
+              }}
+            >
+              Print Ticket
+            </p>
+            <p
+              className={`text-md underline ${
+                isCancellable ? "cursor-pointer" : "cursor-not-allowed"
+              }`}
+              onClick={
+                isCancellable
+                  ? () => {
+                      setSelectedBooking(record);
+                      setShowCancelModal(true);
+                    }
+                  : null
+              } // Prevents click if not cancellable
+            >
+              Cancel Ticket
+            </p>
+          </div>
+        );
+      },
     },
   ];
 
