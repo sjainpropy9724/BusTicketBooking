@@ -10,11 +10,9 @@ import { useReactToPrint } from "react-to-print";
 
 function AdminBookings() {
   const [showPrintModal, setShowPrintModal] = useState(false);
-  const [showCancelModal, setShowCancelModal] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [bookings, setBookings] = useState([]);
   const dispatch = useDispatch();
-
   const getBookings = async () => {
     try {
       dispatch(ShowLoading());
@@ -71,24 +69,15 @@ function AdminBookings() {
       title: "Action",
       dataIndex: "action",
       render: (text, record) => (
-        <div className="flex gap-4">
+        <div>
           <p
-            className="text-md underline cursor-pointer"
+            className="text-md underline"
             onClick={() => {
               setSelectedBooking(record);
               setShowPrintModal(true);
             }}
           >
             Print Ticket
-          </p>
-          <p
-            className="text-md underline cursor-pointer text-red-600"
-            onClick={() => {
-              setSelectedBooking(record);
-              setShowCancelModal(true);
-            }}
-          >
-            Cancel Ticket
           </p>
         </div>
       ),
@@ -112,7 +101,6 @@ function AdminBookings() {
       <div className="mt-2">
         <Table dataSource={bookings} columns={columns} />
       </div>
-      {/* Print Ticket Modal */}
       {showPrintModal && (
         <Modal
           title="Print Ticket"
@@ -181,61 +169,6 @@ function AdminBookings() {
               </span>{" "}
               <br />
               <span className="text-sm">{selectedBooking.transactionId}</span>
-            </p>
-          </div>
-        </Modal>
-      )}
-      {/* Cancel Ticket Modal */}
-      {showCancelModal && (
-        <Modal
-          title="Cancel Ticket"
-          onCancel={() => {
-            setShowCancelModal(false);
-            setSelectedBooking(null);
-          }}
-          open={showCancelModal}
-          okText="OK"
-        >
-          <div className="d-flex flex-column p-5">
-            <p>
-              <span className="text-md" style={{ color: "#808080" }}>
-                Booking ID:
-              </span>{" "}
-              <span className="text-sm">{selectedBooking._id}</span>
-            </p>
-            <p>
-              <span className="text-md" style={{ color: "#808080" }}>
-                Booking Amount:
-              </span>{" "}
-              <br />
-              <span className="text-md">
-              <IndianRupee />{" "}
-              {selectedBooking.fare * selectedBooking.seats.length} /-
-              </span>
-            </p>
-            <p>
-              <span className="text-md" style={{ color: "#808080" }}>
-                Booked Seats:
-              </span>{" "}
-              <span className="text-md">
-                {selectedBooking.seats.join(", ")}
-              </span>
-            </p>
-            <p>
-              <span className="text-md" style={{ color: "#808080" }}>
-                Time of Booking:
-              </span>{" "}
-              <span className="text-sm">
-              {moment(selectedBooking.createdAt).format("DD-MM-YYYY HH:mm:ss")}
-              </span>
-            </p>
-            <p>
-              <span className="text-md" style={{ color: "#808080" }}>
-                Current Date of Cancellation:
-              </span>{" "}
-              <span className="text-sm">
-              {moment().format("DD-MM-YYYY HH:mm:ss")}
-              </span>
             </p>
           </div>
         </Modal>
