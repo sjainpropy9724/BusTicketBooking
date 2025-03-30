@@ -88,10 +88,10 @@ function AdminBookings() {
               Print Ticket
             </p>
             <p
-              className={`text-md underline cursor-pointer ${
+              className={`text-md underline ${
                 isCancellable
-                  ? "text-red-600"
-                  : "text-gray-400 no-underline cursor-not-allowed"
+                  ? "cursor-pointer text-red-600"
+                  : "cursor-default text-gray-400 no-underline"
               }`}
               onClick={() => {
                 if (isCancellable) {
@@ -99,7 +99,6 @@ function AdminBookings() {
                   setShowCancelModal(true);
                 }
               }}
-              disabled={!isCancellable}
             >
               Cancel Ticket
             </p>
@@ -223,8 +222,8 @@ function AdminBookings() {
               </span>{" "}
               <br />
               <span className="text-md">
-              <IndianRupee />{" "}
-              {selectedBooking.fare * selectedBooking.seats.length} /-
+                <IndianRupee />{" "}
+                {selectedBooking.fare * selectedBooking.seats.length} /-
               </span>
             </p>
             <p>
@@ -240,7 +239,9 @@ function AdminBookings() {
                 Time of Booking:
               </span>{" "}
               <span className="text-sm">
-              {moment(selectedBooking.createdAt).format("DD-MM-YYYY HH:mm:ss")}
+                {moment(selectedBooking.createdAt).format(
+                  "DD-MM-YYYY HH:mm:ss"
+                )}
               </span>
             </p>
             <p>
@@ -248,7 +249,7 @@ function AdminBookings() {
                 Current Date of Cancellation:
               </span>{" "}
               <span className="text-sm">
-              {moment().format("DD-MM-YYYY HH:mm:ss")}
+                {moment().format("DD-MM-YYYY HH:mm:ss")}
               </span>
             </p>
           </div>
