@@ -88,16 +88,16 @@ function AdminBookings() {
             </p>
             <p
               className={`text-md underline ${
-                isCancellable
-                  ? "cursor-pointer"
-                  : "cursor-not-allowed"
+                isCancellable ? "cursor-pointer" : "cursor-not-allowed"
               }`}
-              onClick={() => {
-                if (isCancellable) {
-                  setSelectedBooking(record);
-                  setShowCancelModal(true);
-                }
-              }}
+              onClick={
+                isCancellable
+                  ? () => {
+                      setSelectedBooking(record);
+                      setShowCancelModal(true);
+                    }
+                  : null
+              } // Prevents click if not cancellable
             >
               Cancel Ticket
             </p>
