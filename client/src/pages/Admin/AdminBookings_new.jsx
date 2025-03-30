@@ -25,12 +25,12 @@ function AdminBookings() {
       dispatch(HideLoading());
       if (response.data.success) {
         const mappedData = response.data.data.map((booking) => {
-            return {
-              ...booking,
-              ...booking.bus,
-              key: booking._id,
-            };
-          });
+          return {
+            ...booking,
+            ...booking.bus,
+            key: booking._id,
+          };
+        });
         setBookings(mappedData);
       } else {
         message.error(response.data.message);
@@ -42,56 +42,70 @@ function AdminBookings() {
   };
 
   const columns = [
-    { 
-        title: "Bus Name", 
-        dataIndex: "name", 
-        key: "bus" 
-    },
-    { 
-        title: "Bus Number", 
-        dataIndex: "number", 
-        key: "bus" 
-    },
-    { 
-        title: "Journey Date", 
-        dataIndex: "journeyDate" 
-    },
-    { 
-        title: "Journey Time", 
-        dataIndex: "departure" 
+    {
+      title: "Bus Name",
+      dataIndex: "name",
+      key: "bus",
     },
     {
-        title: "Seats",
-        dataIndex: "seats",
-        render: (seats) => {
-            return seats.join(", ");
-        },
+      title: "Bus Number",
+      dataIndex: "number",
+      key: "bus",
+    },
+    {
+      title: "Journey Date",
+      dataIndex: "journeyDate",
+    },
+    {
+      title: "Journey Time",
+      dataIndex: "departure",
+    },
+    {
+      title: "Seats",
+      dataIndex: "seats",
+      render: (seats) => {
+        return seats.join(", ");
+      },
     },
     {
       title: "Action",
       dataIndex: "action",
-      render: (text, record) => (
-        <div className="flex gap-4">
-          <p
-            className="text-md underline cursor-pointer"
-            onClick={() => {
-              setSelectedBooking(record);
-              setShowPrintModal(true);
-            }}
-          >
-            Print Ticket
-          </p>
-          <p
-            className="text-md underline cursor-pointer text-red-600"
-            onClick={() => {
-              setSelectedBooking(record);
-              setShowCancelModal(true);
-            }}
-          >
-            Cancel Ticket
-          </p>
-        </div>
-      ),
+      render: (text, record) => {
+        const journeyDate = moment(record.journeyDate);
+        const bookingDate = moment(record.createdAt);
+        const daysDifference = journeyDate.diff(bookingDate, "days");
+        const isJourneyInFuture = journeyDate.isAfter(moment());
+        const isCancellable = daysDifference >= 4 && isJourneyInFuture;
+
+        return (
+          <div className="flex gap-4">
+            <p
+              className="text-md underline cursor-pointer"
+              onClick={() => {
+                setSelectedBooking(record);
+                setShowPrintModal(true);
+              }}
+            >
+              Print Ticket
+            </p>
+            <p
+              className={`text-md underline cursor-pointer ${
+                isCancellable
+                  ? "text-red-600"
+                  : "text-gray-400 no-underline cursor-not-allowed"
+              }`}
+              onClick={() => {
+                if (isCancellable) {
+                  setSelectedBooking(record);
+                  setShowCancelModal(true);
+                }
+              }}
+            >
+              Cancel Ticket
+            </p>
+          </div>
+        );
+      },
     },
   ];
 
@@ -102,7 +116,7 @@ function AdminBookings() {
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     contentRef: componentRef,
-    documentTitle: "My Ticket",
+    documentTitle: `My Ticket`,
     onAfterPrint: () => console.log("Printing completed"),
   });
 
@@ -171,7 +185,7 @@ function AdminBookings() {
               <br />
               <span className="text-sm">
                 {moment(selectedBooking.createdAt).format(
-                    "DD-MM-YYYY HH:mm:ss"
+                  "DD-MM-YYYY HH:mm:ss"
                 )}
               </span>
             </p>
@@ -198,27 +212,44 @@ function AdminBookings() {
         >
           <div className="d-flex flex-column p-5">
             <p>
-              <span className="text-md text-gray-500">Booking ID:</span>{" "}
-              {selectedBooking._id}
+              <span className="text-md" style={{ color: "#808080" }}>
+                Booking ID:
+              </span>{" "}
+              <span className="text-sm">{selectedBooking._id}</span>
             </p>
             <p>
-              <span className="text-md text-gray-500">Booking Amount:</span>{" "}
-              <IndianRupee />{" "}
-              {selectedBooking.fare * selectedBooking.seats.length} /-
+              <span className="text-md" style={{ color: "#808080" }}>
+                Booking Amount:
+              </span>{" "}
+              <br />
+              <span className="text-md">
+                <IndianRupee />{" "}
+                {selectedBooking.fare * selectedBooking.seats.length} /-
+              </span>
             </p>
             <p>
-              <span className="text-md text-gray-500">Booked Seats:</span>{" "}
-              {selectedBooking.seats.join(", ")}
+              <span className="text-md" style={{ color: "#808080" }}>
+                Booked Seats:
+              </span>{" "}
+              <span className="text-md">
+                {selectedBooking.seats.join(", ")}
+              </span>
             </p>
             <p>
-              <span className="text-md text-gray-500">Time of Booking:</span>{" "}
-              {moment(selectedBooking.createdAt).format("DD-MM-YYYY HH:mm:ss")}
+              <span className="text-md" style={{ color: "#808080" }}>
+                Time of Booking:
+              </span>{" "}
+              <span className="text-sm">
+                {moment(selectedBooking.createdAt).format("DD-MM-YYYY HH:mm:ss")}
+              </span>
             </p>
             <p>
-              <span className="text-md text-gray-500">
+              <span className="text-md" style={{ color: "#808080" }}>
                 Current Date of Cancellation:
               </span>{" "}
-              {moment().format("DD-MM-YYYY HH:mm:ss")}
+              <span className="text-sm">
+                {moment().format("DD-MM-YYYY HH:mm:ss")}
+              </span>
             </p>
           </div>
         </Modal>

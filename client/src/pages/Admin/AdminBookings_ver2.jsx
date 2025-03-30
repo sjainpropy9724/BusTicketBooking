@@ -70,42 +70,28 @@ function AdminBookings() {
     {
       title: "Action",
       dataIndex: "action",
-      render: (text, record) => {
-        const journeyDate = moment(record.journeyDate);
-        // const bookingDate = moment(record.createdAt);
-        const daysDifference = journeyDate.diff(moment(), "days");
-        const isCancellable = daysDifference >= 4;
-
-        return (
-          <div className="flex gap-4">
-            <p
-              className="text-md underline cursor-pointer"
-              onClick={() => {
-                setSelectedBooking(record);
-                setShowPrintModal(true);
-              }}
-            >
-              Print Ticket
-            </p>
-            <p
-              className={`text-md underline cursor-pointer ${
-                isCancellable
-                  ? "text-red-600"
-                  : "text-gray-400 no-underline cursor-not-allowed"
-              }`}
-              onClick={() => {
-                if (isCancellable) {
-                  setSelectedBooking(record);
-                  setShowCancelModal(true);
-                }
-              }}
-              disabled={!isCancellable}
-            >
-              Cancel Ticket
-            </p>
-          </div>
-        );
-      },
+      render: (text, record) => (
+        <div className="flex gap-4">
+          <p
+            className="text-md underline cursor-pointer"
+            onClick={() => {
+              setSelectedBooking(record);
+              setShowPrintModal(true);
+            }}
+          >
+            Print Ticket
+          </p>
+          <p
+            className="text-md underline cursor-pointer text-red-600"
+            onClick={() => {
+              setSelectedBooking(record);
+              setShowCancelModal(true);
+            }}
+          >
+            Cancel Ticket
+          </p>
+        </div>
+      ),
     },
   ];
 
