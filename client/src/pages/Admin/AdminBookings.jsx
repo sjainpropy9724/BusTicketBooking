@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import PageTitle from "../../components/PageTitle";
-import BusForm from "../../components/BusForm";
 import { useDispatch } from "react-redux";
 import { HideLoading, ShowLoading } from "../../redux/alertsSlice";
 import { message, Modal, Table } from "antd";
@@ -11,9 +10,11 @@ import { useReactToPrint } from "react-to-print";
 
 function AdminBookings() {
   const [showPrintModal, setShowPrintModal] = useState(false);
+  const [showCancelModal, setShowCancelModal] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [bookings, setBookings] = useState([]);
   const dispatch = useDispatch();
+
   const getBookings = async () => {
     try {
       dispatch(ShowLoading());
@@ -23,13 +24,11 @@ function AdminBookings() {
       );
       dispatch(HideLoading());
       if (response.data.success) {
-        const mappedData = response.data.data.map((booking) => {
-          return {
-            ...booking,
-            ...booking.bus,
-            key: booking._id,
-          };
-        });
+        const mappedData = response.data.data.map((booking) => ({
+          ...booking,
+          ...booking.bus,
+          key: booking._id,
+        }));
         setBookings(mappedData);
       } else {
         message.error(response.data.message);
@@ -41,45 +40,42 @@ function AdminBookings() {
   };
 
   const columns = [
-    {
-      title: "Bus Name",
-      dataIndex: "name",
-      key: "bus",
-    },
-    {
-      title: "Bus Number",
-      dataIndex: "number",
-      key: "bus",
-    },
+    { title: "Bus Name", dataIndex: "name", key: "bus" },
+    { title: "Bus Number", dataIndex: "number", key: "bus" },
     {
       title: "Journey Date",
       dataIndex: "journeyDate",
+      render: (date) => moment(date).format("DD-MM-YYYY"),
     },
-    {
-      title: "Journey Time",
-      dataIndex: "departure",
-    },
+    { title: "Journey Time", dataIndex: "departure" },
     {
       title: "Seats",
       dataIndex: "seats",
-      render: (seats) => {
-        return seats.join(", ");
-      },
+      render: (seats) => seats.join(", "),
     },
     {
       title: "Action",
       dataIndex: "action",
-      render: (text, record) => (
-        <div>
-          <p
-            className="text-md underline"
+      render: (_, record) => (
+        <div className="flex gap-4">
+          <button
+            className="text-blue-600 hover:underline"
             onClick={() => {
               setSelectedBooking(record);
               setShowPrintModal(true);
             }}
           >
             Print Ticket
-          </p>
+          </button>
+          <button
+            className="text-red-600 hover:underline"
+            onClick={() => {
+              setSelectedBooking(record);
+              setShowCancelModal(true);
+            }}
+          >
+            Cancel Ticket
+          </button>
         </div>
       ),
     },
@@ -92,88 +88,96 @@ function AdminBookings() {
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     contentRef: componentRef,
-    documentTitle: `My Ticket`,
-    onAfterPrint: () => console.log("Printing completed"),
+    documentTitle: "Bus Ticket",
   });
 
   return (
     <div>
       <PageTitle title="Bookings" />
       <div className="mt-2">
-        <Table dataSource={bookings} columns={columns} />
+        <Table
+          dataSource={bookings}
+          columns={columns}
+          pagination={{ pageSize: 10 }}
+        />
       </div>
-      {showPrintModal && (
-        <Modal
-          title="Print Ticket"
-          onCancel={() => {
-            setShowPrintModal(false);
-            setSelectedBooking(null);
-          }}
-          open={showPrintModal}
-          okText="Print"
-          onOk={handlePrint}
-        >
-          <div className="d-flex flex-column p-5" ref={componentRef}>
-            <p className="text-md">{selectedBooking.name}</p>
-            <p className="text-md text-secondary">
-              {selectedBooking.from} - {selectedBooking.to}
-            </p>
-            <hr />
+
+      {/* Print Ticket Modal */}
+      <Modal
+        title="Ticket Details"
+        visible={showPrintModal}
+        onCancel={() => setShowPrintModal(false)}
+        footer={[
+          <button key="print" className="btn-primary" onClick={handlePrint}>
+            Print
+          </button>,
+        ]}
+      >
+        <div ref={componentRef} className="p-4 space-y-3">
+          <h2 className="text-xl font-bold">{selectedBooking?.name}</h2>
+          <p className="text-lg text-gray-600">
+            {selectedBooking?.from} → {selectedBooking?.to}
+          </p>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="text-gray-500">Journey Date:</label>
+              <p>
+                {moment(selectedBooking?.journeyDate).format("DD MMM YYYY")}
+              </p>
+            </div>
+            <div>
+              <label className="text-gray-500">Departure Time:</label>
+              <p>{selectedBooking?.departure}</p>
+            </div>
+          </div>
+          <p className="text-lg">
+            <IndianRupee className="inline mr-1" />
+            {selectedBooking?.fare * selectedBooking?.seats?.length} INR
+          </p>
+        </div>
+      </Modal>
+
+      {/* Cancel Ticket Modal */}
+      <Modal
+        title="Confirm Ticket Cancellation"
+        visible={showCancelModal}
+        onCancel={() => setShowCancelModal(false)}
+        footer={[
+          <button
+            key="cancel"
+            className="btn-danger"
+            onClick={() => {
+              message.success("Cancellation request received");
+              setShowCancelModal(false);
+            }}
+          >
+            Confirm Cancellation
+          </button>,
+        ]}
+      >
+        {selectedBooking && (
+          <div className="space-y-3">
             <p>
-              <span className="text-md" style={{ color: "#808080" }}>
-                Journey Date:
-              </span>{" "}
-              <span className="text-md">
-                {moment(selectedBooking.journeyDate).format("DD-MM-YYYY")}
-              </span>{" "}
-            </p>
-            <p>
-              <span className="text-md" style={{ color: "#808080" }}>
-                Journey Time:
-              </span>{" "}
-              <span className="text-md">{selectedBooking.departure}</span>
-            </p>
-            <hr />
-            <p>
-              <span className="text-lg" style={{ color: "#808080" }}>
-                Seat Numbers:
-              </span>{" "}
-              <br />
-              <span className="text-md">{selectedBooking.seats}</span>
-            </p>
-            <hr />
-            <p>
-              <span className="text-md" style={{ color: "#808080" }}>
-                Total Amount:
-              </span>{" "}
-              <br />
-              <span className="text-md">
-                <IndianRupee />
-                {selectedBooking.fare * selectedBooking.seats.length} /-
-              </span>
-            </p>
-            <hr />
-            <p>
-              <span className="text-sm" style={{ color: "#808080" }}>
-                Booking Created on:{" "}
-              </span>{" "}
-              <br />
-              <span className="text-sm">
-                {moment(selectedBooking.createdAt).format(
-                  "DD-MM-YYYY HH:mm:ss"
-                )}
-              </span>
+              <strong>Booking ID:</strong> {selectedBooking._id}
             </p>
             <p>
-              <span className="text-sm" style={{ color: "#808080" }}>
-                Transaction ID:
-              </span>{" "}
-              <br />
-              <span className="text-sm">{selectedBooking.transactionId}</span>
+              <strong>Total Amount:</strong> ₹
+              {selectedBooking.fare * selectedBooking.seats.length}
+            </p>
+            <p>
+              <strong>Seats:</strong> {selectedBooking.seats.join(", ")}
+            </p>
+            <p>
+              <strong>Booked On:</strong>{" "}
+              {moment(selectedBooking.createdAt).format("DD MMM YYYY, hh:mm A")}
+            </p>
+            <p className="text-red-500">
+              <strong>Cancellation Time:</strong>{" "}
+              {moment().format("DD MMM YYYY, hh:mm A")}
             </p>
           </div>
-        </Modal>
-      )}
+        )}
+      </Modal>
     </div>
   );
 }
